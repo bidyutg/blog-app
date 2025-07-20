@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Hide full content by default */
+        .full-content { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Vlogging Website!</h1>
+    <a href="/signup">Sign Up</a> | 
+    <a href="/login">Log In</a> 
+
+    <h3>All Articles</h3>
+    
+    <% articles.forEach(article => { %>
+        <div>
+            <h2><%= article.title %></h2>
+            
+            <!-- Show first 150 characters -->
+            <p id="short-content-<%= article._id %>">
+                <%= article.content.substring(0, 150) %>...
+            </p>
+            <% if (article.image) { %>
+                <img src="<%= article.image %>" alt="Article Image" width="300" height="200">
+            <% } %> <!-- <-- Closing the if statement here -->
+            
+            <!-- Show full content, hidden initially -->
+            <div id="full-content-<%= article._id %>" class="full-content">
+                <p><%= article.content %></p>
+            </div>
+
+            <!-- Button to toggle full content visibility -->
+            <button id="see-more-btn-<%= article._id %>" onclick="toggleContent('<%= article._id %>')">See More</button>
+        </div>
+    <% }) %>
+
+    <!-- Link to external JavaScript file -->
+    <script src="/script.js"></script>
+</body>
+</html>

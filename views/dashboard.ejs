@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Your Articles</h1>
+    <ul> 
+        <%  if (articles.length === 0) { %>
+            <p>You have no articles yet.</p>
+        <% }
+        
+        
+        articles.forEach(function(article) { %>
+            <li><%= article.title %></li>
+              <!-- Show first 150 characters -->
+              <p id="short-content-<%= article._id %>">
+                <%= article.content.substring(0, 150) %>...
+            </p>
+            <% if (article.image) { %>
+                <img src="<%= article.image %>" alt="Article Image" width="200" height="150">
+            <% } %>
+           <!-- Show full content, hidden initially -->
+           <div id="full-content-<%= article._id %>" class="full-content">
+            <p><%= article.content %></p>
+        </div>
+            <!-- Button to toggle full content visibility -->
+            <button id="see-more-btn-<%= article._id %>" onclick="toggleContent('<%= article._id %>')">See More</button>
+        </div>
+            <a href="/article/edit/<%= article._id %>">Edit Article</a>
+            <form action="/article/delete/<%= article._id %>" method="POST">
+                <button  type="submit">Delete </button>
+            </form>
+        <% }); %>
+    </ul>
+
+ |  <a href="/article/create">Create New Article</a>
+     
+
+    <!-- <% if (articles.length === 0) { %>
+        <p>You have no articles yet.</p>
+    <% } else { %>
+   
+    <ul>
+        <% articles.forEach(article => { %>
+            <li>
+                <h2><%= article.title %></h2>
+                <p><%= article.content %></p>
+            </li>
+        <% })} %> -->
+    </ul> 
+
+ |  <a href="/logout">logout</a>
+ <script src="/script.js"></script>
+
+</body>
+</html>
