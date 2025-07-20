@@ -55,9 +55,9 @@ app.use('/article',articleRoutes);
 
 
 
-// app.get('/', (req,res)=>{   
-//     res.render('index')
-// });
+app.get('/', (req,res)=>{   
+    res.render('index')
+});
 
 // Start server
 app.listen(PORT, () => {
