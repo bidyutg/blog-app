@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        /* Hide full content by default */
-        .full-content { display: none; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Index</title>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-    <h1>Welcome to the Vlogging Website!</h1>
-    <a href="/signup">Sign Up</a> | 
-    <a href="/login">Log In</a> 
+  <header>
+    <h1>🎥 Vlogging Blog</h1>
+    <nav>
+      <a href="/signup">Sign Up</a>
+      <a href="/login">Log In</a>
+    </nav>
+  </header>
 
-    <h3>All Articles</h3>
-    
-    <% articles.forEach(article => { %>
-        <div>
-            <h2><%= article.title %></h2>
-            
-            <!-- Show first 150 characters -->
-            <p id="short-content-<%= article._id %>">
-                <%= article.content.substring(0, 150) %>...
-            </p>
-            <% if (article.image) { %>
-                <img src="<%= article.image %>" alt="Article Image" width="300" height="200">
-            <% } %> <!-- <-- Closing the if statement here -->
-            
-            <!-- Show full content, hidden initially -->
-            <div id="full-content-<%= article._id %>" class="full-content">
-                <p><%= article.content %></p>
-            </div>
+  <main>
+    <h2>📝 All Articles</h2>
 
-            <!-- Button to toggle full content visibility -->
+    <div class="articles-container">
+      <% articles.forEach(article => { %>
+        <div class="article-card">
+          <h3><%= article.title %></h3>
+
+          <!-- Short Preview -->
+          <p id="short-content-<%= article._id %>">
+            <%= article.content.substring(0, 150) %>...
+          </p>
+
+          <!-- Image (if any) -->
+          <% if (article.image) { %>
+            <img src="<%= article.image %>" alt="Article Image" class="article-image">
+          <% } %>
+
+          <!-- Full Content -->
+          <div id="full-content-<%= article._id %>" class="full-content">
+            <p><%= article.content %></p>
+          </div>
+
+          <!-- Buttons -->
+          <div class="button-group">
             <button id="see-more-btn-<%= article._id %>" onclick="toggleContent('<%= article._id %>')">See More</button>
-        </div>
-    <% }) %>
+            <button onclick="likeArticle('<%= article._id %>')">❤️ Like</button>
+          </div>
 
-    <!-- Link to external JavaScript file -->
-    <script src="/script.js"></script>
+          <!-- Comment Section -->
+          <div class="comment-section">
+            <input type="text" id="comment-input-<%= article._id %>" placeholder="Add a comment...">
+            <button onclick="submitComment('<%= article._id %>')">Post</button>
+            <div id="comments-<%= article._id %>" class="comments-list"></div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+
+  <script src="/script.js"></script>
 </body>
 </html>

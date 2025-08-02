@@ -1,41 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Article</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .form-container h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 150px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    #image-preview {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
 </head>
 <body>
-    <h1>editting page</h1>
 
-    <!-- <form action="/article/edit/<%= article._id %>" method="POST" >
-        <input type="text" name="title" value="<%= article.title %>" placeholder="Title" required>
-        <textarea name="content" placeholder="Content" required><%= article.content %></textarea>
-        <div class="form-group">
-            <label for="image">Image (Optional)</label>
-            <input type="file" id="image" name="image" accept="image/jpeg, image/png, image/gif">
-        </div>
-        <button type="submit">Save</button>
-    </form> -->
-
-
-
+  <div class="form-container">
+    <h1>✏️ Edit Article</h1>
 
     <form action="/article/edit/<%= article._id %>" method="POST" enctype="multipart/form-data">
-        <div>
-        <input type="text" name="title" placeholder="Title" >
-       </div>
+      <input type="text" name="title" value="<%= article.title %>" placeholder="Title" required />
 
-       
-       <div>
-        <textarea name="content" placeholder="Content" ></textarea>
-    </div>
-        <input type="file" name="image" accept="image/*">
+      <textarea name="content" placeholder="Content" required><%= article.content %></textarea>
 
-    <div>
-        <button type="submit">Submit Article</button>
-    </div>
+      <label for="image">Update Image (optional):</label>
+      <input type="file" name="image" id="image" accept="image/*" onchange="previewImage(event)" />
+
+      <% if (article.image) { %>
+        <img id="image-preview" src="<%= article.image %>" alt="Current Image" />
+      <% } else { %>
+        <img id="image-preview" style="display:none;" />
+      <% } %>
+
+      <button type="submit">Save Changes</button>
     </form>
-    
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const preview = document.getElementById('image-preview');
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.style.display = 'none';
+      }
+    }
+  </script>
+
 </body>
 </html>

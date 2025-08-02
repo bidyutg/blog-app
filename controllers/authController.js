@@ -17,7 +17,7 @@ const registerUser = async (req, res) => {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Hashed Password:", hashedPassword);  // Debugging
+    // console.log("Hashed Password:", hashedPassword);  // Debugging
 
     const newUser = new User({ username, password: hashedPassword });
 
@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
         await newUser.save();
 
         // Log saved user (hashed password)
-        console.log("Saved User:", newUser);
+        // console.log("Saved User:", newUser);
 
         res.redirect('/login');
     } catch (err) {
@@ -77,7 +77,7 @@ const registerUser = async (req, res) => {
 // };
 const loginUser = async (req, res) => {
     const { username, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     console.log("Login attempt with username: ", username);  // Log the username to verify
 
@@ -103,7 +103,7 @@ const loginUser = async (req, res) => {
     // Generate JWT Token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.cookie('token', token, { httpOnly: true });  // Store token in cookie
-    console.log("Generated Token: ", token);  // Log the token for debugging
+    // console.log("Generated Token: ", token);  // Log the token for debugging
     res.redirect('/article/dashboard');  // Redirect to dashboard after login
 };
 

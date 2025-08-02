@@ -1,59 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Articles</title>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-    <h1>Your Articles</h1>
-    <ul> 
-        <%  if (articles.length === 0) { %>
-            <p>You have no articles yet.</p>
-        <% }
-        
-        
-        articles.forEach(function(article) { %>
-            <li><%= article.title %></li>
-              <!-- Show first 150 characters -->
-              <p id="short-content-<%= article._id %>">
-                <%= article.content.substring(0, 150) %>...
-            </p>
-            <% if (article.image) { %>
-                <img src="<%= article.image %>" alt="Article Image" width="200" height="150">
-            <% } %>
-           <!-- Show full content, hidden initially -->
-           <div id="full-content-<%= article._id %>" class="full-content">
-            <p><%= article.content %></p>
-        </div>
-            <!-- Button to toggle full content visibility -->
-            <button id="see-more-btn-<%= article._id %>" onclick="toggleContent('<%= article._id %>')">See More</button>
-        </div>
-            <a href="/article/edit/<%= article._id %>">Edit Article</a>
-            <form action="/article/delete/<%= article._id %>" method="POST">
-                <button  type="submit">Delete </button>
-            </form>
-        <% }); %>
-    </ul>
+  <header>
+    <h1>🗒️ Your Articles</h1>
+    <nav>
+      <a href="/article/create">➕ Create New Article</a> |
+      <a href="/logout">🚪 Logout</a>
+    </nav>
+  </header>
 
- |  <a href="/article/create">Create New Article</a>
-     
-
-    <!-- <% if (articles.length === 0) { %>
-        <p>You have no articles yet.</p>
+  <main>
+    <% if (articles.length === 0) { %>
+      <p>You have no articles yet.</p>
     <% } else { %>
-   
-    <ul>
-        <% articles.forEach(article => { %>
-            <li>
-                <h2><%= article.title %></h2>
-                <p><%= article.content %></p>
-            </li>
-        <% })} %> -->
-    </ul> 
+      <div class="articles-container">
+        <% articles.forEach(function(article) { %>
+          <div class="article-card">
+            <h3><%= article.title %></h3>
 
- |  <a href="/logout">logout</a>
- <script src="/script.js"></script>
+            <!-- Short Preview -->
+            <p id="short-content-<%= article._id %>">
+              <%= article.content.substring(0, 150) %>...
+            </p>
 
+            <!-- Full Content (Initially hidden) -->
+            <div id="full-content-<%= article._id %>" class="full-content">
+              <p><%= article.content %></p>
+            </div>
+
+            <!-- Article Image -->
+            <% if (article.image) { %>
+              <img src="<%= article.image %>" alt="Article Image" class="article-image">
+            <% } %>
+
+            <!-- Toggle Button -->
+            <button id="see-more-btn-<%= article._id %>" onclick="toggleContent('<%= article._id %>')">See More</button>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+              <a href="/article/edit/<%= article._id %>" class="edit-btn">✏️ Edit</a>
+              <form action="/article/delete/<%= article._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this article?');" style="display:inline;">
+                <button type="submit" class="delete-btn">🗑️ Delete</button>
+              </form>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+
+  <script src="/script.js"></script>
 </body>
 </html>
